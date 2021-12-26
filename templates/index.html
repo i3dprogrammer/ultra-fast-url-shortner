@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/style.css" />
+    <title>Ultra fast URL Shortner</title>
+  </head>
+  <body>
+    <h1>Shorten your URL!</h1>
+    {% if original_url %}
+    <div class="add_success">
+      <span class="highlight">{{ original_url }}</span>
+      <span style="margin: 0px 5px">was shortened to</span>
+      <span class="highlight shortened_url">
+        <div class="copied"></div>
+      </span>
+    </div>
+    {% endif %}
+    <form action="/add" method="get">
+      <input
+        type="text"
+        name="url"
+        placeholder="Enter your URL to shorten"
+        required
+      />
+      <input type="submit" value="Shorten" />
+    </form>
+  </body>
+  <script>
+    if (document.querySelector(".shortened_url")) {
+      let shortened_url = `${window.location.origin}/a/{{shortened_code}}`;
+      document.querySelector(
+        ".shortened_url"
+      ).innerHTML = `<div class="copied"></div> ${shortened_url}`;
+      document.querySelector(".shortened_url").addEventListener("click", () => {
+        navigator.clipboard.writeText(shortened_url);
+        document.querySelector(".copied").style.display = "block";
+        setTimeout(() => {
+          document.querySelector(".copied").style.display = "none";
+        }, 2000);
+      });
+    }
+  </script>
+</html>
