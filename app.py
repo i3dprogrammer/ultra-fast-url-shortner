@@ -1,8 +1,8 @@
-import utils, db, os
+import utils, db, os, config
 from flask import Flask, request, render_template, url_for
 
 app = Flask(__name__)
-app.config.from_object(os.environ['APP_SETTINGS'])
+app.config.from_object(config.DevelopmentConfig)
 
 @app.route('/', methods=['GET'])
 def index():
@@ -13,7 +13,7 @@ def add():
     url = request.args.get('url', None)
     code = request.args.get('code', None)
     if not url:
-        return "There was no URL found in the request.", 400
+        return "Bad Request - There was no URL found to shorten.", 400
     else:
         if not code:
             code = utils.generate_random_code()
