@@ -33,3 +33,6 @@ def save_url(code):
     if url_model:
         return url_model.url, 200
     return render_template('404.html', code=code)
+
+if __name__ == "__main__":
+    app.run(debug=False, host="0.0.0.0", port=80)
